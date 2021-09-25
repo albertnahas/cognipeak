@@ -1,0 +1,82 @@
+
+.arrow {
+    border: solid black;
+    border-width: 0 6px 6px 0;
+    display: inline-block;
+    padding: 12px;
+    border-color:#666;
+}
+
+.arrow-button {
+    position:absolute;
+    top:40vh;
+}
+
+.right-button {
+    right:0vw;
+    padding:50px;
+}
+
+.left-button {
+    left:0vw;
+    padding:50px;
+}
+
+.right-arrow {
+	transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
+}
+
+.left-arrow {
+	transform: rotate(135deg);
+	-webkit-transform: rotate(135deg);
+}
+
+.shape {
+    background-image:url('icons2.png');
+    background-size:calc(100% * 3);
+    /* background-position:0 0; */
+    width:60px;
+    height:60px;
+    margin:0 auto;
+    top:calc(40vh - 25px);
+    position:relative;
+
+    -webkit-animation-duration: 10s;
+    animation-duration: 300ms;
+    animation-fill-mode: backwards;
+    animation-timing-function: ease-in;
+
+}
+
+.shape.left {
+    -webkit-animation-name: fadeInLeft;
+    animation-name: fadeInLeft;
+}
+.shape.right {
+    -webkit-animation-name: fadeInRight;
+    animation-name: fadeInRight;
+}
+
+
+@keyframes fadeInLeft {
+    0% {
+       opacity: 1;
+       transform: translateX(0);
+    }
+    100% {
+       opacity: 0;
+       transform: translateX(60vw);
+    }
+ }
+
+@keyframes fadeInRight {
+    0% {
+       opacity: 1;
+       transform: translateX(0);
+    }
+    100% {
+       opacity: 0;
+       transform: translateX(-60vw);
+    }
+ }  

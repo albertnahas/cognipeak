@@ -1,0 +1,48 @@
+.ApproximityBoard {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    height:100%;
+    clear: both;
+}
+
+.ApproximityBoard .wrapper {
+    padding:10px;
+    text-align:center;
+    width:100%;
+}
+
+.ApproximityBoard .wrapper p {
+    font-size:3em;
+    font-weight:light;
+    color:#666;
+}
+
+.ApproximityBoard .sliderWrapper {
+    margin: 50px auto;
+    width:80%;
+}
+
+.ApproximityBoard button {
+    background: #666;
+    color:#fff;
+    outline:none;
+    appearance: none;
+    border:1px solid #efefef;
+    padding:0.25em 0.5em;
+    font-size:1.5em;
+    border-radius:8px;
+}
+
+.ApproximityBoard button:active {
+    background: #999;
+}
+
+.ApproximityBoard span.rc-slider-mark-text {
+    font-size:1.1em;
+}
+
+.board .timer {
+    float: right;
+    padding: 5px 20px;
+}

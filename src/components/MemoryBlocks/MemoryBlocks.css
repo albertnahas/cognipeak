@@ -1,0 +1,79 @@
+.MemoryBoard {
+	padding: 10px;
+	background-color: #2a83f1;
+	/* background-color: #3bc692; */
+	height: 100%;
+	box-sizing: border-box;
+	line-height: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.MemoryBoard .wrapper > div {
+  display: flex;
+}
+.MemoryBoard .wrapper span {
+	display: block;
+	background-color: #125b9a;
+	/* background-color: #1e775f; */
+	margin: 2px;
+	border: 2px solid #2a83f1;
+	border-radius: 5px;
+	/* transition: all 200ms; */
+	/* border: 2px solid #3bc692; */
+}
+.MemoryBoard .wrapper span.active {
+  background-color: #fff;
+	/* background-color: #d0ffde; */
+}
+.MemoryBoard .wrapper span.invalid {
+	background-color: #172a4e;
+	/* background-color: #103e32; */
+}
+
+.MemoryBoard .wrapper span.block-l {
+	width: 100px;
+	height: 100px;
+	margin:4px;
+	border-radius: 8px;
+}
+.MemoryBoard .wrapper span.block-m {
+	width: 75px;
+	height: 75px;
+	margin:3px;
+	border-radius: 6px;
+}
+.MemoryBoard .wrapper span.block-s {
+	width: 50px;
+	height: 50px;
+	margin:2px;
+}
+.MemoryBoard .wrapper span.block-xs {
+	width: 35px;
+	height: 35px;
+	margin:1px;
+}
+
+@media only screen and (max-width: 600px) {
+	.MemoryBoard .wrapper span.block-l {
+		width: 20vw;
+		height: 20vw;
+	}
+	.MemoryBoard .wrapper span.block-m {
+		width: 15vw;
+		height: 15vw;
+		margin:1px;
+		border-width:3px;
+		border-radius:8px
+	}
+	.MemoryBoard .wrapper span.block-s {
+		width: 12vw;
+		height: 12vw;
+		margin:1px;
+	}
+	.MemoryBoard .wrapper span.block-xs {
+		width: 8vw;
+		height: 8vw;
+		margin:0px;
+	}
+  }
