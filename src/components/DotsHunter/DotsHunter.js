@@ -3,11 +3,11 @@ import React, { useEffect, useMemo, useRef } from 'react'
 import { useState } from 'react'
 import './DotsHunter.css'
 
-const STARTING_TIMER = 800
+const STARTING_TIMER = 900
 const MAX_TUNRS = 10
 const STARTING_LEVEL = 10
 
-export const DotsHunter = () => {
+export const DotsHunter = ({ onFinish }) => {
 
     const [level, setLevel] = useState(STARTING_LEVEL)
     const [tunrs, setTunrns] = useState(0)
@@ -25,9 +25,6 @@ export const DotsHunter = () => {
 
     const sqauresCount = useMemo(() => getSquaresCount(level), [level])
     const boardDimensions = useMemo(() => getBoardDimensions(level), [level])
-
-
-
 
     const finishTurn = () => {
         checkStatus()
@@ -58,6 +55,7 @@ export const DotsHunter = () => {
     useEffect(() => {
         if (tunrs === MAX_TUNRS) {
             setFinished(true)
+            onFinish(score)
             return
         }
 

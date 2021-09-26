@@ -4,7 +4,7 @@ import { useState } from 'react'
 import './MemoryBlocks.css'
 
 const TIMER = 1000
-const MAX_TUNRS = 10
+const MAX_TUNRS = 12
 const STARTING_LEVEL = 1
 
 export const MemoryBlocks = ({ onFinish }) => {
@@ -102,7 +102,7 @@ export const MemoryBlocks = ({ onFinish }) => {
         }
         const newClickedSqaures = [...clickedSqaures, index]
         setClickedSqaures(newClickedSqaures)
-        const bonus = activeSqures.indexOf(index) > -1 ? level * level : -1 * level * level
+        const bonus = activeSqures.indexOf(index) > -1 ? 100 * sqauresCount : -1 * 100 * sqauresCount
         setScore(prevScore => prevScore + bonus)
     }
     const displayLevel = () => {

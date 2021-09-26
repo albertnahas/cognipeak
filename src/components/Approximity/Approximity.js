@@ -9,7 +9,7 @@ const STARTING_DECIMALS = 2
 const SLIDER_STEPS = 5
 const BASIC_SCORE = 200
 
-export const Approximity = () => {
+export const Approximity = ({ onFinish }) => {
 
     const [score, setScore] = useState(0)
     const [level, setLevel] = useState(STARTING_LEVEL)
@@ -55,7 +55,7 @@ export const Approximity = () => {
         const to = Math.ceil(res) + round(Math.random() / Math.pow(10, base), base)
         setEquation({ left, plus, right, res, from, to })
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tunrs])
 
     const getMarks = useMemo(() => () => {
@@ -72,7 +72,7 @@ export const Approximity = () => {
         const last = round(equation.to, base);
         marks[last] = last
         return marks
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [equation, showResult])
 
     const onAfterSliderChange = value => {
@@ -105,6 +105,7 @@ export const Approximity = () => {
 
     const finish = () => {
         setFinished(true)
+        onFinish(score)
     }
 
     return (

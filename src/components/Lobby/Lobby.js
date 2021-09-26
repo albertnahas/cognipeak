@@ -4,7 +4,7 @@ import './Lobby.css'
 import firebase from '../../config'
 import { useAuth } from '../../hooks/auth.context';
 import { ChallengeProvider } from '../../hooks/challenge.context';
-import { MemoryBlocks } from '../MemoryBlocks/MemoryBlocks';
+import { ChallengePicker, Games } from '../ChallengePicker/ChallengePicker';
 
 const Lobby = () => {
     const user = useAuth().currentUser
@@ -36,12 +36,15 @@ const Lobby = () => {
     }
 
     const createChallenge = () => {
+        const challengeIndex = Math.floor(Math.random() * Object.keys(Games).length);
+        const game = Object.keys(Games)[challengeIndex]
         const challengeObj = {
             creator: user.uid,
             createdAt: firebase.database.ServerValue.TIMESTAMP,
             player1: user.displayName,
-            status: 'pending',
+            status: 'pending',  
             done: 0,
+            game: game,
         }
         const newChallenge = firebase.database().ref('challenges').push()
         newChallenge.set(challengeObj).then(() => {
@@ -105,8 +108,8 @@ const Lobby = () => {
                     {challenge && challenge.status === 'ongoing' &&
                         <p>Challenging {challenge.player1 === user.displayName ? challenge.player2 : challenge.player1}</p>
                     }
-                    {challenge && challenge.status === 'ongoing' &&
-                        <MemoryBlocks onFinish={onGameFinish} />
+                    {challenge && challenge.status === 'ongoing' && challenge.game &&
+                        <ChallengePicker game={challenge.game} onFinish={onGameFinish} />
                     }
                     {challenge && challenge.status === 'done' &&
                         <div>

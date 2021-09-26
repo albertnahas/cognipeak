@@ -11,7 +11,7 @@ const DIR_RIGHT = true
 const DIR_LEFT = false
 const DIR_NONE = undefined
 
-export const Sorter = () => {
+export const Sorter = ({ onFinish }) => {
 
     const [score, setScore] = useState(0)
     const [multiplier, setMultiplier] = useState(1)
@@ -68,7 +68,7 @@ export const Sorter = () => {
         return () => {
             window.removeEventListener('keydown', onKeyDown)
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const getAnimation = () => {
@@ -94,6 +94,7 @@ export const Sorter = () => {
     const finish = () => {
         setFinished(true)
         window.removeEventListener('keydown', onKeyDown)
+        onFinish(score)
     }
 
     return (
