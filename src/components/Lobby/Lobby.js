@@ -91,6 +91,7 @@ const Lobby = () => {
         return () => {
 
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
@@ -118,6 +119,7 @@ const Lobby = () => {
             firebase.database().ref('challenges/' + challengeRef.key).off()
             firebase.database().ref('challenges/' + challengeRef.key + '/scores').off()
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [challengeRef])
 
     useEffect(() => {
@@ -128,10 +130,11 @@ const Lobby = () => {
                 setPlaying(false)
             }
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [challenge])
 
     const onGameFinish = (score) => {
-        const isCreator = challenge.creator === user.uid
+        // const isCreator = challenge.creator === user.uid
 
         // let updatedChallenge = {
         //     done: challenge.done + 1
