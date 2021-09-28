@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css';
 import './Approximity.css';
@@ -11,6 +11,7 @@ const BASIC_SCORE = 200
 
 export const Approximity = ({ onFinish }) => {
 
+    const scoreRef = useRef(0)
     const [score, setScore] = useState(0)
     const [level, setLevel] = useState(STARTING_LEVEL)
     const [tunrs, setTunrns] = useState(0)
@@ -82,7 +83,8 @@ export const Approximity = ({ onFinish }) => {
     const onOkClick = () => {
         setShowResult(true)
         const levelScore = getLevelScore()
-        setScore(s => s + levelScore)
+        scoreRef.current = scoreRef.current + levelScore
+        setScore(scoreRef.current)
         if (levelScore > 0) setLevel(level => level + 1)
         setTimeout(nextLevel, 1000);
     }
@@ -105,7 +107,7 @@ export const Approximity = ({ onFinish }) => {
 
     const finish = () => {
         setFinished(true)
-        onFinish(score)
+        onFinish(scoreRef.current)
     }
 
     return (

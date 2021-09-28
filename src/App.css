@@ -16,3 +16,7 @@
 .AppWrapper, .AppWrapper > div{
 	height:100%
 }
+
+.board {
+	flex-grow: 1;
+}

@@ -13,6 +13,7 @@ const DIR_NONE = undefined
 
 export const Sorter = ({ onFinish }) => {
 
+    const scoreRef = useRef(0)
     const [score, setScore] = useState(0)
     const [multiplier, setMultiplier] = useState(1)
     // const [level, setLevel] = useState(STARTING_LEVEL)
@@ -86,7 +87,8 @@ export const Sorter = ({ onFinish }) => {
             const correct = (prevShape === shape && prevDirection === directionRef.current) || (prevShape !== shape && prevDirection !== directionRef.current)
             const bonus = correct ? 100 * multiplier : -200
             setMultiplier(mult => correct ? Math.min(mult, 6) + 1 : 1)
-            setScore(prevScore => Math.max(prevScore + bonus, 0))
+            scoreRef.current = Math.max(scoreRef.current + bonus, 0)
+            setScore(scoreRef.current)
         }
         setPrevShape(shape)
     }, [tunrs])
@@ -94,7 +96,7 @@ export const Sorter = ({ onFinish }) => {
     const finish = () => {
         setFinished(true)
         window.removeEventListener('keydown', onKeyDown)
-        onFinish(score)
+        onFinish(scoreRef.current)
     }
 
     return (

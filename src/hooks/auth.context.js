@@ -3,11 +3,7 @@ import React, { useEffect, useState } from 'react';
 const AuthContext = React.createContext(null)
 
 export const AuthProvider = ({ user, children }) => {
-    const [currentUser, setCurrentUser] = useState(user)
-    useEffect(() => {
-        setCurrentUser(user)
-    }, [user])
-    return (<AuthContext.Provider value={{ currentUser }}>
+    return (<AuthContext.Provider value={{ user }}>
         {children}
     </AuthContext.Provider>)
 }

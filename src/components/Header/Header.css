@@ -1,0 +1,56 @@
+header {
+	padding: 5px 20px;
+	display: flex;
+	/* background:#2a83f1;
+    color:white; */
+	box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.userInfo {
+	display: table;
+}
+
+.info {
+	display: table-cell;
+	vertical-align: middle;
+	padding: 0 10px;
+}
+
+.profile {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.profile-wrapper {
+	border-radius: 50%;
+	overflow: hidden;
+	display: inline-block;
+	height: 40px;
+}
+
+.profile img {
+	height: 100%;
+}
+
+.signOut {
+	text-decoration: underline;
+	cursor: pointer;
+	margin-left: 10px;
+}
+
+.logo {
+	flex-grow: 1;
+}
+
+.logo img {
+	width: 150px;
+}
+
+@media only screen and (max-width: 600px) {
+	.logo img {
+		width: 80px;
+	}
+
+	.profile-wrapper {
+		height: 30px;
+	}
+}

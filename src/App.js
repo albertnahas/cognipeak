@@ -7,6 +7,7 @@ import { GSignInButton } from './atoms/GSignInButton';
 import { useEffect } from 'react';
 import { Nav } from './components/Nav/Nav';
 import { AuthProvider } from './hooks/auth.context';
+import { Header } from './components/Header/Header';
 
 const firebaseAppAuth = firebase.auth();
 const providers = {
@@ -51,12 +52,13 @@ const App = ({
   return (
     <AuthProvider user={user}>
       <div className="AppWrapper">
-        {loading && <h1>Hello</h1>}
+        {loading && <h1>Loading ...</h1>}
         {!user && <div className="LoginWrapper">
           <img alt="" className="AppLogo" src={logo} />
           <GSignInButton onClick={signInWithGoogle} />
         </div>
         }
+        {user && <Header signOut={signOut} />}
         {user && <Nav> <Lobby /></Nav>}
       </div>
     </AuthProvider>
