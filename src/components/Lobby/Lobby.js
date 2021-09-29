@@ -160,15 +160,13 @@ const Lobby = () => {
             finishedAt: firebase.database.ServerValue.TIMESTAMP,
         }
         firebase.database().ref('challenges/' + challengeRef.key + '/scores').child(user.uid).set(scoreObj)
-        // const fetchedChallenged = firebase.database().ref('challenges').child(challengeRef.key)
-        // fetchedChallenged.update(updatedChallenge)
     }
 
     return (
         <ChallengeProvider challenge={challenge}>
 
             <div className="Lobby">
-                <ChallengePicker game="QuickMath" onFinish={() => { }} />
+                {/* <ChallengePicker game="QuickMath" onFinish={() => { }} /> */}
                 <div style={{ height: `${playing ? 'auto' : '100%'}` }} className="LobbyWrapper">
                     {!challenge && <button className="challenge-btn" onClick={onClickChallenge}>Challenge</button>}
                     {challenge && challenge.status === 'pending' &&
