@@ -101,7 +101,7 @@ export const Sorter = ({ onFinish }) => {
 
     return (
         <div className="board">
-            <Timer endTime={30} onTimerFinish={finish}></Timer>
+            {!finished && <Timer endTime={30} onTimerFinish={finish}></Timer>}
             {!finished ? (
                 <>
                     <span onClick={onRightArrowClick} className="arrow-button left-button">

@@ -71,6 +71,15 @@ const Lobby = () => {
         })
     }
 
+    const isCurrentUserWinner = () => {
+        return (
+            // eslint-disable-next-line eqeqeq
+            (scores[0].score > scores[1].score && scores[0].playerId == user.uid)
+            // eslint-disable-next-line eqeqeq
+            || (scores[0].score < scores[1].score && scores[1].playerId == user.uid)
+        )
+    }
+
     useEffect(() => {
         firebase.database().ref('challenges')
             .orderByChild('creator')
@@ -91,7 +100,7 @@ const Lobby = () => {
         return () => {
 
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
@@ -119,7 +128,7 @@ const Lobby = () => {
             firebase.database().ref('challenges/' + challengeRef.key).off()
             firebase.database().ref('challenges/' + challengeRef.key + '/scores').off()
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [challengeRef])
 
     useEffect(() => {
@@ -130,7 +139,7 @@ const Lobby = () => {
                 setPlaying(false)
             }
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [challenge])
 
     const onGameFinish = (score) => {
@@ -159,6 +168,7 @@ const Lobby = () => {
         <ChallengeProvider challenge={challenge}>
 
             <div className="Lobby">
+                <ChallengePicker game="QuickMath" onFinish={() => { }} />
                 <div style={{ height: `${playing ? 'auto' : '100%'}` }} className="LobbyWrapper">
                     {!challenge && <button className="challenge-btn" onClick={onClickChallenge}>Challenge</button>}
                     {challenge && challenge.status === 'pending' &&
@@ -168,10 +178,12 @@ const Lobby = () => {
                         <p>Challenging {challenge.player1 === user.displayName ? challenge.player2 : challenge.player1}</p>
                     }
                     {challenge
-                    // && challenge.status === 'done'
-                    && scores.length === 2 &&
+                        // && challenge.status === 'done'
+                        && scores.length === 2 &&
                         <div>
-                            {scores.map(s => <h1 key={s.playerId}>{s.player} score is: {s.score}</h1>)}
+                            {scores.map(s => <h2 key={s.playerId}>{s.player} score is: {s.score}</h2>)}
+                            {isCurrentUserWinner() && <h1>You won!</h1>}
+
                         </div>
                     }
                 </div>

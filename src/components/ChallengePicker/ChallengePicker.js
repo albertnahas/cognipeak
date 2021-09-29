@@ -5,12 +5,14 @@ import { MemoryBlocks } from '../MemoryBlocks/MemoryBlocks';
 import { Sorter } from '../Sorter/Sorter';
 import { Approximity } from '../Approximity/Approximity';
 import { DotsHunter } from '../DotsHunter/DotsHunter';
+import { QuickMath } from '../QuickMath/QuickMath';
 
 export const Games = {
     MemoryBlocks,
     Sorter,
     DotsHunter,
     Approximity,
+    QuickMath,
 };
 
 export const ChallengePicker = ({ game, onFinish }) => {
@@ -38,7 +40,7 @@ export const ChallengePicker = ({ game, onFinish }) => {
 
     return (
         <div className="ChallengeBoard">
-            <h1>{game}</h1>
+            {!start && <h1>{game}</h1>}
             {!start && <h1>{(3 - counter)}</h1>}
             {start && typeof Games[game] !== "undefined" && React.createElement(Games[game], { onFinish })}
         </div>

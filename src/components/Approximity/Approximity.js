@@ -112,7 +112,7 @@ export const Approximity = ({ onFinish }) => {
 
     return (
         <div className="board">
-            <Timer endTime={60} onTimerFinish={finish}></Timer>
+            {!finished && <Timer endTime={45} onTimerFinish={finish}></Timer>}
             <div className="ApproximityBoard">
                 {!finished ? <div className="wrapper">
                     <p>{equation.left} {equation.plus ? '+' : '-'} {equation.right}</p>
