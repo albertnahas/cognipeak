@@ -1,0 +1,94 @@
+.UniqueBoard {
+	padding: 20px;
+	background-color: #fff;
+	/* background-color: #3bc692; */
+	box-sizing: border-box;
+	line-height: 0;
+	display: flex;
+	/* align-items: center; */
+	justify-content: center;
+	transition: all 500ms;
+}
+.UniqueBoard .wrapper > div {
+	display: flex;
+}
+.UniqueBoard .wrapper span.block {
+	display: block;
+	background-color: #fff;
+	border-radius: 5px;
+}
+.UniqueBoard .wrapper span.block {
+	background-image: url('icons2.png');
+	background-size: calc(100% * 5) calc(100% * 4);
+	top: calc(20vh - 25px);
+}
+.UniqueBoard .wrapper span.block.active {
+	border: 2px solid green;
+}
+.UniqueBoard .wrapper span.block.invalid {
+	animation: nudge .4s linear;
+}
+
+.UniqueBoard .wrapper span.block.block-l {
+	width: 100px;
+	height: 100px;
+	margin: 1em;
+	border-radius: 8px;
+}
+.UniqueBoard .wrapper span.block.block-m {
+	width: 75px;
+	height: 75px;
+	margin: 0.5em;
+	border-radius: 6px;
+}
+.UniqueBoard .wrapper span.block.block-s {
+	width: 50px;
+	height: 50px;
+	margin: 0.3em;
+}
+.UniqueBoard .wrapper span.block.block-xs {
+	width: 35px;
+	height: 35px;
+	margin: 0.1em;
+}
+
+@media only screen and (max-width: 600px) {
+	.UniqueBoard .wrapper span.block.block-l {
+		width: 20vw;
+		height: 20vw;
+	}
+	.UniqueBoard .wrapper span.block.block-m {
+		width: 15vw;
+		height: 15vw;
+		margin: 1px;
+		border-width: 3px;
+		border-radius: 8px;
+	}
+	.UniqueBoard .wrapper span.block.block-s {
+		width: 12vw;
+		height: 12vw;
+		margin: 1px;
+	}
+	.UniqueBoard .wrapper span.block.block-xs {
+		width: 8vw;
+		height: 8vw;
+		margin: 0px;
+	}
+}
+
+
+
+@keyframes nudge {
+  
+	0% {
+	  transform: rotate(-7deg);
+	}
+	
+	33% {
+	  transform: rotate(7deg);
+	}
+	
+	66% {
+	  transform: rotate(-7deg);
+	}
+  }
