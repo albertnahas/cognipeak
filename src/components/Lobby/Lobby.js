@@ -170,7 +170,7 @@ const Lobby = () => {
   return (
     <ChallengeProvider challenge={challenge}>
       <div className="Lobby">
-        <ChallengePicker game="Unique" onFinish={() => {}} />
+        {/* <ChallengePicker game="Unique" onFinish={() => {}} /> */}
         <div
           style={{ height: `${playing ? 'auto' : '100%'}` }}
           className="LobbyWrapper"
