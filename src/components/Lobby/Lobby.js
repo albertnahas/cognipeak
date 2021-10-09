@@ -23,6 +23,7 @@ const Lobby = () => {
       .once('value')
       .then((snapshot) => {
         const challenges = snapshot.val()
+        if (!challenges) return
         let created = false
         Object.entries(challenges).forEach((entry) => {
           if (created) return
@@ -54,7 +55,7 @@ const Lobby = () => {
         setChallengeRef(newChallenge)
         setChallenge(challengeObj)
       })
-      .catch(() => {})
+      .catch(() => { })
   }
 
   const joinChallenge = (challengeObj, key) => {
@@ -86,6 +87,7 @@ const Lobby = () => {
       .once('value')
       .then((snapshot) => {
         const challenges = snapshot.val()
+        if (!challenges) return
         Object.entries(challenges).forEach((entry) => {
           const [challengeKey, challengeObj] = entry
           if (challengeObj.status === 'pending') {
