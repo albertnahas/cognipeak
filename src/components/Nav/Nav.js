@@ -38,5 +38,5 @@ export const Nav = ({ children }) => (
 )
 
 Nav.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.array,
 }
