@@ -5,7 +5,7 @@ import './Lobby.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { ChallengePicker } from '../ChallengePicker/ChallengePicker'
 import { useChallenge } from '../../hooks/useChallenge'
-import { Profile } from '../Profile/Profile'
+// import { Profile } from '../Profile/Profile'
 // import { useUser } from '../../hooks/useUser'
 import { setChallenge, setChallengeRef } from '../../store/challengeSlice'
 import {
