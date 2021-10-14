@@ -1,13 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Timer } from '../Timer/Timer'
-import './Unique.css'
+import { Timer } from '../../../atoms/Timer/Timer'
+import './Immigration.css'
+import { getSquareSize } from '../../../utils/Helpers'
+import { Arrow, DIR_LEFT, DIR_RIGHT } from '../../../atoms/Arrow/Arrow'
 
 const STARTING_LEVEL = 1
-const SHAPES_SPRITE = [4, 4] // 3,4
-const SHAPES_COUNT = SHAPES_SPRITE[0] * SHAPES_SPRITE[1]
+const DIRECTIONS_COUNT = 2
 
-export const Unique = ({ onFinish }) => {
+export const Immigration = ({ onFinish }) => {
   const [level, setLevel] = useState(STARTING_LEVEL)
   const [tunrs, setTurns] = useState(0)
   const [shapes, setShapes] = useState([])
@@ -16,6 +17,8 @@ export const Unique = ({ onFinish }) => {
   const [score, setScore] = useState(0)
   const [finished, setFinished] = useState(false)
 
+  const scoreRef = useRef(0)
+
   const getBoardDimensions = (lv) => 4 + Math.floor(lv / 4)
   const getShapesCount = (d) => Math.round(Math.sqrt(d))
   const boardDimensions = useMemo(() => getBoardDimensions(level), [level])
@@ -23,7 +26,7 @@ export const Unique = ({ onFinish }) => {
     () => getShapesCount(boardDimensions * boardDimensions),
     [boardDimensions],
   )
-  const genNum = () => Math.floor(Math.random() * SHAPES_COUNT)
+  const genNum = () => Math.floor(Math.random() * DIRECTIONS_COUNT)
 
   const finishTurn = () => {
     checkStatus()
@@ -31,7 +34,7 @@ export const Unique = ({ onFinish }) => {
   }
 
   const checkStatus = () => {
-    if (isUnique(clickedShape.shape)) {
+    if (isImmigration(clickedShape.shape)) {
       setLevel((preVal) => preVal + 1)
     } else {
       setLevel((preVal) => Math.max(preVal - 1, STARTING_LEVEL))
@@ -40,7 +43,7 @@ export const Unique = ({ onFinish }) => {
 
   const finish = () => {
     setFinished(true)
-    onFinish(score)
+    onFinish(scoreRef.current)
   }
 
   useEffect(() => {
@@ -52,13 +55,9 @@ export const Unique = ({ onFinish }) => {
 
   useEffect(() => {
     const squares = []
-    const uniqueSquare = genNum()
-    squares.push(uniqueSquare)
-    for (let index = 1; index < shapesCount; index += 1) {
-      let lastShape = genNum()
-      while (lastShape === uniqueSquare) {
-        lastShape = genNum()
-      }
+
+    for (let index = 0; index < shapesCount; index += 1) {
+      const lastShape = genNum()
       for (let s = 0; s < index + 1; s += 1) {
         squares.push(lastShape)
       }
@@ -85,28 +84,19 @@ export const Unique = ({ onFinish }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tunrs])
 
-  const getSquareSize = () => {
-    switch (true) {
-      case boardDimensions < 4:
-        return 'l'
-      case boardDimensions < 6:
-        return 'm'
-      case boardDimensions < 8:
-        return 's'
-      default:
-        return 'xs'
-    }
-  }
-
   const onClickShape = (shape, index) => {
     setClickedShape({ shape, index })
     setShowClickedShape(true)
-    const bonus = isUnique(shape) ? 100 * shapesCount : -1 * 100 * shapesCount
-    setScore((prevScore) => prevScore + bonus)
+    const bonus = isImmigration(shape)
+      ? 100 * shapesCount
+      : -1 * 100 * shapesCount
+    scoreRef.current = Math.max(scoreRef.current + bonus, 0)
+    setScore(scoreRef.current)
   }
 
-  const isUnique = (shape) =>
-    shapes.flatMap((r) => r).filter((s) => s === shape).length === 1
+  const isImmigration = (shape) =>
+    shapes.flatMap((r) => r).filter((s) => s === shape).length >
+    shapes.flatMap((r) => r).filter((s) => s === +!shape).length
 
   const displayLevel = () => {
     let current = -1
@@ -115,12 +105,11 @@ export const Unique = ({ onFinish }) => {
         {row.map((col) => {
           current += 1
           const isActive =
-            clickedShape && clickedShape.index === current && showClickedShape
-          const isInvalid =
             clickedShape &&
-            clickedShape.index === current &&
-            !isUnique(col) &&
+            (clickedShape.index === current ||
+              (clickedShape.shape === col && clickedShape.index === -1)) &&
             showClickedShape
+          const isInvalid = isActive && !isImmigration(col)
           return (
             <Block
               shape={col}
@@ -129,7 +118,7 @@ export const Unique = ({ onFinish }) => {
               isInvalid={isInvalid}
               index={current}
               onClickHandler={onClickShape}
-              size={getSquareSize()}
+              size={getSquareSize(boardDimensions)}
             />
           )
         })}
@@ -137,9 +126,38 @@ export const Unique = ({ onFinish }) => {
     ))
   }
 
+  const onRightArrowClick = () => {
+    onClickShape(+DIR_LEFT, -1)
+  }
+
+  const onLeftArrowClick = () => {
+    onClickShape(+DIR_RIGHT, -1)
+  }
+
+  const onKeyDown = (e) => {
+    const key = e.which
+    if (key === 39) {
+      // the enter key code or right arrow
+      onLeftArrowClick()
+    } else if (key === 37) {
+      // left arrow
+      onRightArrowClick()
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('keydown', onKeyDown)
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <>
-      <div className="board UniqueBoard">
+      <div className="board ImmigrationBoard">
+        <Arrow direction={DIR_LEFT} onClick={onRightArrowClick} />
+        <Arrow direction={DIR_RIGHT} onClick={onLeftArrowClick} />
         <div className="wrapper">
           {!finished && <Timer endTime={30} onTimerFinish={finish}></Timer>}
           {!finished && shapes.length ? displayLevel() : <h1>{score}</h1>}
@@ -157,11 +175,7 @@ export const Block = ({
   onClickHandler,
   size,
 }) => {
-  const getShape = (num) =>
-    `calc(100% * ${num % SHAPES_SPRITE[0]}) calc(100% * ${Math.floor(
-      num / SHAPES_SPRITE[1],
-    )})`
-
+  const dir = (-1) ** shape
   return (
     <span
       role="button"
@@ -170,7 +184,8 @@ export const Block = ({
       key={`${index}`}
       onMouseDown={(e) => onClickHandler(shape, index, e)}
       style={{
-        backgroundPosition: getShape(shape),
+        transform: `scaleX(${dir})`,
+        // filter: `hue-rotate(${dir === 1 ? '0deg' : '180deg'})`,
         backgroundImage: shape === -1 ? 'none' : '',
       }}
       className={`${
@@ -182,7 +197,7 @@ export const Block = ({
 }
 
 Block.propTypes = {
-  shape: PropTypes.string,
+  shape: PropTypes.number,
   isActive: PropTypes.bool,
   isInvalid: PropTypes.bool,
   index: PropTypes.number,
@@ -190,6 +205,6 @@ Block.propTypes = {
   size: PropTypes.string,
 }
 
-Unique.propTypes = {
+Immigration.propTypes = {
   onFinish: PropTypes.func,
 }

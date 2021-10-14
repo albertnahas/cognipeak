@@ -2,13 +2,15 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import './App.css'
 import withFirebaseAuth from 'react-with-firebase-auth'
+import { useDispatch } from 'react-redux'
 import firebase from './config'
 import logo from './logo.png'
 import Lobby from './components/Lobby/Lobby'
-import { GSignInButton } from './atoms/GSignInButton'
+import { GSignInButton } from './atoms/GSignInButton/GSignInButton'
 import { Nav } from './components/Nav/Nav'
-import { AuthProvider } from './hooks/auth.context'
 import { Header } from './components/Header/Header'
+import { setUser } from './store/userSlice'
+import { useUser } from './hooks/useUser'
 
 const firebaseAppAuth = firebase.auth()
 const providers = {
@@ -35,40 +37,32 @@ const App = ({
   // error,
   loading,
 }) => {
+  const dispatch = useDispatch()
+  const userData = useUser()
   useEffect(() => {
     if (user && user.uid) {
-      firebase
-        .database()
-        .ref(`users/${user.uid}`)
-        .set({
-          uid: user.uid,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-          lastLogin: new Date(),
-        })
-        .catch(() => {})
+      dispatch(setUser(user))
+      userData.createUser(user)
     }
   }, [user])
 
   return (
-    <AuthProvider user={user}>
-      <div className="AppWrapper">
-        {loading && <h1>Loading ...</h1>}
-        {!user && (
-          <div className="LoginWrapper">
-            <img alt="" className="AppLogo" src={logo} />
-            <GSignInButton onClick={signInWithGoogle} />
-          </div>
-        )}
-        {user && <Header signOut={signOut} />}
-        {user && (
-          <Nav>
-            {' '}
-            <Lobby />
-          </Nav>
-        )}
-      </div>
-    </AuthProvider>
+    <div className="AppWrapper">
+      {loading && <h1>Loading ...</h1>}
+      {!user && (
+        <div className="LoginWrapper">
+          <img alt="" className="AppLogo" src={logo} />
+          <GSignInButton onClick={signInWithGoogle} />
+        </div>
+      )}
+      {user && <Header signOut={signOut} />}
+      {user && (
+        <Nav>
+          {' '}
+          <Lobby />
+        </Nav>
+      )}
+    </div>
   )
 }
 

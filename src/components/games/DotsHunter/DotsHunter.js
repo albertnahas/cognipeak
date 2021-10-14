@@ -4,6 +4,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import './DotsHunter.css'
+import { getSquareSize } from '../../../utils/Helpers'
 
 const STARTING_TIMER = 900
 const MAX_TUNRS = 10
@@ -74,19 +75,6 @@ export const DotsHunter = ({ onFinish }) => {
     }
   }, [tunrs])
 
-  const getSquareSize = () => {
-    switch (true) {
-      case boardDimensions < 4:
-        return 'l'
-      case boardDimensions < 6:
-        return 'm'
-      case boardDimensions < 8:
-        return 's'
-      default:
-        return 'xs'
-    }
-  }
-
   const onClickSqaure = (index) => {
     if (showActiveSquare) {
       return
@@ -112,7 +100,7 @@ export const DotsHunter = ({ onFinish }) => {
               isInvalid={isInvalid}
               index={current}
               onClickHandler={onClickSqaure}
-              size={getSquareSize()}
+              size={getSquareSize(boardDimensions)}
             />
           )
         })}

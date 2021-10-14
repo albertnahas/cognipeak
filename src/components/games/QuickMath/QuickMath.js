@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import 'rc-slider/assets/index.css'
 import './QuickMath.css'
-import { Timer } from '../Timer/Timer'
+import { Timer } from '../../../atoms/Timer/Timer'
 import { Numpad } from './Numpad'
 
 const STARTING_LEVEL = 1

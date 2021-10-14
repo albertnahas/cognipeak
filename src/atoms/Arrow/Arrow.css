@@ -1,0 +1,32 @@
+.arrow {
+    border: solid black;
+    border-width: 0 6px 6px 0;
+    display: inline-block;
+    padding: 12px;
+    border-color:#666;
+}
+
+.arrow-button {
+    position:absolute;
+    top:40vh;
+}
+
+.right-button {
+    right:0vw;
+    padding:50px;
+}
+
+.left-button {
+    left:0vw;
+    padding:50px;
+}
+
+.right-arrow {
+	transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
+}
+
+.left-arrow {
+	transform: rotate(135deg);
+	-webkit-transform: rotate(135deg);
+}

@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import './MemoryBlocks.css'
+import { getSquareSize } from '../../../utils/Helpers'
 
 const TIMER = 1000
 const MAX_TUNRS = 12
@@ -75,19 +76,6 @@ export const MemoryBlocks = ({ onFinish }) => {
     }, TIMER)
   }, [tunrs])
 
-  const getSquareSize = () => {
-    switch (true) {
-      case boardDimensions < 4:
-        return 'l'
-      case boardDimensions < 6:
-        return 'm'
-      case boardDimensions < 8:
-        return 's'
-      default:
-        return 'xs'
-    }
-  }
-
   const onClickSqaure = (index) => {
     if (
       clickedSqaures.indexOf(index) > -1 ||
@@ -123,7 +111,7 @@ export const MemoryBlocks = ({ onFinish }) => {
               isInvalid={isInvalid}
               index={current}
               onClickHandler={onClickSqaure}
-              size={getSquareSize()}
+              size={getSquareSize(boardDimensions)}
             />
           )
         })}

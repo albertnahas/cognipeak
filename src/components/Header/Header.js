@@ -1,12 +1,13 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useAuth } from '../../hooks/auth.context'
+import { useSelector } from 'react-redux'
 import './Header.css'
 import logo from '../../logo.png'
+import { ProfilePhoto } from '../Profile/ProfilePhoto'
 
 export const Header = ({ signOut }) => {
-  const { user } = useAuth()
+  const user = useSelector((state) => state.user.value)
 
   return (
     (user && (
@@ -15,11 +16,7 @@ export const Header = ({ signOut }) => {
           <img alt="" src={logo} />
         </div>
         <div className="userInfo">
-          <span className="profile">
-            <span className="profile-wrapper">
-              <img alt={user.displayName} src={user.photoURL} />
-            </span>
-          </span>
+          <ProfilePhoto />
           <span className="info">
             {user && user.displayName} |
             <span

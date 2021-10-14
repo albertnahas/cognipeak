@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import './ChallengePicker.css'
 import PropTypes from 'prop-types'
 
-import { MemoryBlocks } from '../MemoryBlocks/MemoryBlocks'
-import { Sorter } from '../Sorter/Sorter'
-import { Approximity } from '../Approximity/Approximity'
-import { DotsHunter } from '../DotsHunter/DotsHunter'
-import { QuickMath } from '../QuickMath/QuickMath'
-import { Unique } from '../Unique/Unique'
+import { MemoryBlocks } from '../games/MemoryBlocks/MemoryBlocks'
+import { Sorter } from '../games/Sorter/Sorter'
+import { Approximity } from '../games/Approximity/Approximity'
+import { DotsHunter } from '../games/DotsHunter/DotsHunter'
+import { QuickMath } from '../games/QuickMath/QuickMath'
+import { Unique } from '../games/Unique/Unique'
+import { Immigration } from '../games/Immigration/Immigration'
 
 export const Games = {
   MemoryBlocks,
@@ -16,6 +17,7 @@ export const Games = {
   Approximity,
   QuickMath,
   Unique,
+  Immigration,
 }
 
 export const ChallengePicker = ({ game, onFinish }) => {
@@ -49,6 +51,6 @@ export const ChallengePicker = ({ game, onFinish }) => {
 }
 
 ChallengePicker.propTypes = {
-  game: PropTypes.object,
+  game: PropTypes.string,
   onFinish: PropTypes.func,
 }

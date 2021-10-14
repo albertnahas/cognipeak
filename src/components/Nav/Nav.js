@@ -2,16 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './Nav.css'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { MemoryBlocks } from '../MemoryBlocks/MemoryBlocks'
-import { Approximity } from '../Approximity/Approximity'
-import { DotsHunter } from '../DotsHunter/DotsHunter'
-import { Sorter } from '../Sorter/Sorter'
-// import { useChallenge } from '../../hooks/challenge.context';
+import { MemoryBlocks } from '../games/MemoryBlocks/MemoryBlocks'
+import { Approximity } from '../games/Approximity/Approximity'
+import { DotsHunter } from '../games/DotsHunter/DotsHunter'
+import { Sorter } from '../games/Sorter/Sorter'
 
 export const Nav = ({ children }) => (
-  // const challenge = useChallenge()
-  // const currentChallenge = challenge ? challenge.currentChallenge : undefined
-
   <Router>
     <div>
       {children}

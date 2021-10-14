@@ -2,14 +2,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Timer } from '../Timer/Timer'
+import { Timer } from '../../../atoms/Timer/Timer'
 import './Sorter.css'
+import { Arrow, DIR_LEFT, DIR_RIGHT } from '../../../atoms/Arrow/Arrow'
 // const TIMER = 60
 const SHAPES_SPRITE = [2, 2] // 3,4
 const SHAPES_COUNT = SHAPES_SPRITE[0] * SHAPES_SPRITE[1]
 
-const DIR_RIGHT = true
-const DIR_LEFT = false
 const DIR_NONE = undefined
 
 export const Sorter = ({ onFinish }) => {
@@ -113,24 +112,8 @@ export const Sorter = ({ onFinish }) => {
       {!finished && <Timer endTime={30} onTimerFinish={finish}></Timer>}
       {!finished ? (
         <>
-          <span
-            role="button"
-            aria-label="left-button"
-            tabIndex={0}
-            onClick={onRightArrowClick}
-            className="arrow-button left-button"
-          >
-            <i className="arrow left-arrow"></i>
-          </span>
-          <span
-            role="button"
-            aria-label="right-button"
-            tabIndex={0}
-            onClick={onLeftArrowClick}
-            className="arrow-button right-button"
-          >
-            <i className="arrow right-arrow"></i>
-          </span>
+          <Arrow direction={DIR_LEFT} onClick={onRightArrowClick} />
+          <Arrow direction={DIR_RIGHT} onClick={onLeftArrowClick} />
           <div
             className={`shape ${getAnimation()}`}
             style={{ backgroundPosition: getShape(shape) }}

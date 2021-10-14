@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
 import './Approximity.css'
-import { Timer } from '../Timer/Timer'
+import { Timer } from '../../../atoms/Timer/Timer'
 
 const STARTING_LEVEL = 1
 const STARTING_DECIMALS = 2
