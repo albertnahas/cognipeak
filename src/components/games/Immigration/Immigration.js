@@ -13,11 +13,12 @@ export const Immigration = ({ onFinish }) => {
   const [tunrs, setTurns] = useState(0)
   const [shapes, setShapes] = useState([])
   const [clickedShape, setClickedShape] = useState({ index: -1, shape: -1 })
-  const [showClickedShape, setShowClickedShape] = useState(true)
+  const [showClickedShape, setShowClickedShape] = useState(false)
   const [score, setScore] = useState(0)
   const [finished, setFinished] = useState(false)
 
   const scoreRef = useRef(0)
+  const shapesRef = useRef([])
 
   const getBoardDimensions = (lv) => 4 + Math.floor(lv / 4)
   const getShapesCount = (d) => Math.round(Math.sqrt(d))
@@ -80,6 +81,7 @@ export const Immigration = ({ onFinish }) => {
         boardArr2D[i][j] = boardArr[index]
       }
     }
+    shapesRef.current = boardArr2D
     setShapes(boardArr2D)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tunrs])
@@ -95,8 +97,8 @@ export const Immigration = ({ onFinish }) => {
   }
 
   const isImmigration = (shape) =>
-    shapes.flatMap((r) => r).filter((s) => s === shape).length >
-    shapes.flatMap((r) => r).filter((s) => s === +!shape).length
+    shapesRef.current.flatMap((r) => r).filter((s) => s === shape).length >
+    shapesRef.current.flatMap((r) => r).filter((s) => s === +!shape).length
 
   const displayLevel = () => {
     let current = -1
@@ -159,7 +161,7 @@ export const Immigration = ({ onFinish }) => {
         <Arrow direction={DIR_LEFT} onClick={onRightArrowClick} />
         <Arrow direction={DIR_RIGHT} onClick={onLeftArrowClick} />
         <div className="wrapper">
-          {!finished && <Timer endTime={30} onTimerFinish={finish}></Timer>}
+          {!finished && <Timer endTime={10} onTimerFinish={finish}></Timer>}
           {!finished && shapes.length ? displayLevel() : <h1>{score}</h1>}
         </div>
       </div>
