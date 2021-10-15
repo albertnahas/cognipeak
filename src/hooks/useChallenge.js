@@ -6,25 +6,39 @@ import { setChallenge, setChallengeRef } from '../store/challengeSlice'
 export const useChallenge = () => {
   const user = useSelector((state) => state.user.value)
   const challengeRef = useSelector((state) => state.challenge.challengeRef)
+  const challenge = useSelector((state) => state.challenge.challenge)
 
   const dispatch = useDispatch()
 
-  const createChallenge = () => {
-    const challengeIndex = Math.floor(Math.random() * Object.keys(Games).length)
+  const createChallenge = (type = 'multi', index) => {
+    const challengeIndex =
+      index !== undefined
+        ? index
+        : Math.floor(Math.random() * Object.keys(Games).length)
     const game = Object.keys(Games)[challengeIndex]
     const challengeObj = {
       creator: user.uid,
       createdAt: firebase.database.ServerValue.TIMESTAMP,
       player1: user.displayName,
-      status: 'pending',
-      done: 0,
+      status: type === 'multi' ? 'pending' : 'ongoing',
+      type,
       game,
     }
-    const newChallenge = firebase.database().ref('challenges').push()
-    newChallenge.set(challengeObj).catch(() => {})
+    if (type === 'multi') {
+      const newChallenge = firebase.database().ref('challenges').push()
+      newChallenge.set(challengeObj)
+      dispatch(setChallengeRef(newChallenge))
+    }
     dispatch(setChallenge(challengeObj))
-    dispatch(setChallengeRef(newChallenge))
-    return { challengeRef: newChallenge, challenge: challengeObj }
+  }
+
+  const updateChallenge = (updated) => {
+    dispatch(setChallenge({ ...challenge, ...updated }))
+  }
+
+  const clearChallenge = () => {
+    dispatch(setChallenge(null))
+    dispatch(setChallengeRef(null))
   }
 
   const joinChallenge = (challengeObj, key) => {
@@ -39,6 +53,10 @@ export const useChallenge = () => {
     dispatch(setChallenge(challengeObj))
     dispatch(setChallengeRef(fetchedChallenged))
     return { challengeRef: fetchedChallenged, challenge: updatedChallenge }
+  }
+
+  const deleteChallenge = (key) => {
+    firebase.database().ref('challenges').child(key).remove()
   }
 
   const submitScore = (score) => {
@@ -59,5 +77,8 @@ export const useChallenge = () => {
     createChallenge,
     joinChallenge,
     submitScore,
+    updateChallenge,
+    clearChallenge,
+    deleteChallenge,
   }
 }

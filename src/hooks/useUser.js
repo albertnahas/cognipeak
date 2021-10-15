@@ -25,7 +25,12 @@ export const useUser = () => {
       .database()
       .ref(`users/${user.uid}/challenges`)
       .push()
-      .set({ challenge, game, score })
+      .set({
+        challenge,
+        game,
+        score,
+        finishedAt: firebase.database.ServerValue.TIMESTAMP,
+      })
       .catch(() => {})
   }
 

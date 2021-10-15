@@ -13,9 +13,18 @@
 	justify-content: center;
 }
 
+.btns-group {
+	display: flex;
+    grid-gap: 1em;
+    gap: 1em;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
 .challenge-btn {
 	font-family: 'Sora', sans-serif;
-	font-size: 4vmin;
+	font-size: 1.5em;
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
@@ -41,4 +50,10 @@
 .challenge-btn:active {
 	transform: scale(0.8) translateY(10%);
 	transition-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+}
+
+
+.btn-inline {
+	font-size: 14px;
+	margin:auto 8px;
 }

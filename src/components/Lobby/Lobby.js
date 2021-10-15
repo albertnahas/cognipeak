@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { ChallengePicker } from '../ChallengePicker/ChallengePicker'
 import { useChallenge } from '../../hooks/useChallenge'
 // import { Profile } from '../Profile/Profile'
-// import { useUser } from '../../hooks/useUser'
+import { useUser } from '../../hooks/useUser'
 import { setChallenge, setChallengeRef } from '../../store/challengeSlice'
 import {
   getChallengeByKey,
@@ -14,6 +14,7 @@ import {
   getChallengeScores,
   getIdleChallenges,
 } from '../../utils/Queries'
+import { Training } from '../Training/Training'
 
 const Lobby = () => {
   const dispatch = useDispatch()
@@ -22,12 +23,34 @@ const Lobby = () => {
   const challengeRef = useSelector((state) => state.challenge.challengeRef)
 
   const challengeHelper = useChallenge()
-  // const userHelper = useUser()
+  const userHelper = useUser()
 
+  const [mode, setMode] = useState(null)
   const [scores, setScores] = useState([])
   const [playing, setPlaying] = useState(false)
 
+  const onClickTraining = () => {
+    setMode('training')
+  }
+  const onClickTrainingGame = (gameIndex) => {
+    challengeHelper.createChallenge('single', gameIndex)
+  }
+  const onClickNewGame = () => {
+    challengeHelper.clearChallenge()
+    setMode(null)
+    setScores([])
+  }
+  const onClickCancel = () => {
+    if (challengeRef) {
+      challengeHelper.deleteChallenge(challengeRef.key)
+    }
+    challengeHelper.clearChallenge()
+    setMode(null)
+    setScores([])
+  }
+
   const onClickChallenge = () => {
+    setMode('challenge')
     getIdleChallenges()
       .once('value')
       .then((snapshot) => {
@@ -109,8 +132,23 @@ const Lobby = () => {
   }, [challenge])
 
   const onGameFinish = (score) => {
-    challengeHelper.submitScore(score)
-    // userHelper.createUserChallenge(challengeRef.getKey(), challenge.game, score)
+    if (challengeRef) {
+      challengeHelper.submitScore(score)
+    } else {
+      challengeHelper.updateChallenge({ status: 'done' })
+      setScores([
+        {
+          playerId: user.uid,
+          player: user.displayName,
+          score,
+        },
+      ])
+    }
+    userHelper.createUserChallenge(
+      challengeRef ? challengeRef.getKey() : null,
+      challenge.game,
+      score,
+    )
   }
 
   return (
@@ -121,38 +159,89 @@ const Lobby = () => {
         style={{ height: `${playing ? 'auto' : '100%'}` }}
         className="LobbyWrapper"
       >
-        {!challenge && (
-          <button
-            type="button"
-            className="challenge-btn"
-            onClick={onClickChallenge}
-          >
-            Challenge
-          </button>
+        {mode === 'training' && !challenge && (
+          <Training onClickGame={onClickTrainingGame} />
+        )}
+
+        {mode === null && !challenge && (
+          <>
+            <div className="btns-group">
+              <button
+                type="button"
+                className="challenge-btn"
+                onClick={onClickChallenge}
+              >
+                Challenge
+              </button>
+              <button
+                type="button"
+                className="challenge-btn"
+                onClick={onClickTraining}
+              >
+                Training
+              </button>
+            </div>
+          </>
         )}
         {challenge && challenge.status === 'pending' && (
-          <p>Waiting for a challenger ...</p>
-        )}
-        {challenge && challenge.status === 'ongoing' && (
-          <p>
-            Challenging{' '}
-            {challenge.player1 === user.displayName
-              ? challenge.player2
-              : challenge.player1}
-          </p>
+          <>
+            <p>Waiting for a challenger ...</p>
+            <button
+              type="button"
+              className="challenge-btn"
+              onClick={onClickCancel}
+            >
+              Cancel
+            </button>
+          </>
         )}
         {challenge &&
-          // && challenge.status === 'done'
-          scores.length === 2 && (
-            <div>
-              {scores.map((s) => (
-                <h2 key={s.playerId}>
-                  {s.player} score is: {s.score}
-                </h2>
-              ))}
-              {user && isCurrentUserWinner() && <h1>You won!</h1>}
-            </div>
-          )}
+          challenge.status === 'ongoing' &&
+          (challenge.player2 ? (
+            <p>
+              Challenging{' '}
+              {challenge.player1 === user.displayName
+                ? challenge.player2
+                : challenge.player1}
+            </p>
+          ) : (
+            <>
+              <div>
+                <p>
+                  Training
+                  <button
+                    type="button"
+                    className="challenge-btn btn-inline"
+                    onClick={onClickCancel}
+                  >
+                    Exit
+                  </button>
+                </p>
+              </div>
+            </>
+          ))}
+        {challenge && challenge.status === 'done' && scores.length && (
+          <div>
+            {scores.map((s) => (
+              <h2 key={s.playerId}>
+                {s.playerId === user.uid ? `Your` : s.player} score is:{' '}
+                {s.score}
+              </h2>
+            ))}
+
+            {user && scores.length === 2 && isCurrentUserWinner() && (
+              <h1>You won!</h1>
+            )}
+
+            <button
+              type="button"
+              className="challenge-btn"
+              onClick={onClickNewGame}
+            >
+              New Game
+            </button>
+          </div>
+        )}
       </div>
       {challenge && challenge.status === 'ongoing' && challenge.game && (
         <ChallengePicker game={challenge.game} onFinish={onGameFinish} />

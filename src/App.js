@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import './App.css'
@@ -11,6 +12,7 @@ import { Nav } from './components/Nav/Nav'
 import { Header } from './components/Header/Header'
 import { setUser } from './store/userSlice'
 import { useUser } from './hooks/useUser'
+import { getUserByKey } from './utils/Queries'
 
 const firebaseAppAuth = firebase.auth()
 const providers = {
@@ -42,7 +44,13 @@ const App = ({
   useEffect(() => {
     if (user && user.uid) {
       dispatch(setUser(user))
-      userData.createUser(user)
+      getUserByKey(user.uid)
+        .once('value')
+        .then((snapshot) => {
+          if (!snapshot.val()) {
+            userData.createUser(user)
+          }
+        })
     }
   }, [user])
 

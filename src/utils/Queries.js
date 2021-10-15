@@ -9,5 +9,7 @@ export const getIdleChallenges = () =>
 export const getChallengeByKey = (key) =>
   firebase.database().ref(`challenges/${key}`)
 
+export const getUserByKey = (key) => firebase.database().ref(`users/${key}`)
+
 export const getChallengeScores = (key) =>
   firebase.database().ref(`challenges/${key}/scores`)

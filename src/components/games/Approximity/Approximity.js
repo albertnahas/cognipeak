@@ -35,25 +35,6 @@ export const Approximity = ({ onFinish }) => {
   const round = (num, decs) => Math.round(num * 10 ** decs) / 10 ** decs
   const generateNum = () => round(Math.random() * max, decimals)
 
-  // const { createSliderWithTooltip } = Slider;
-  // const Range = createSliderWithTooltip(Slider.Range);
-  // const { Handle } = Slider;
-
-  // const handle = props => {
-  //     const { value, dragging, index, ...restProps } = props;
-  //     return (
-  //         <SliderTooltip
-  //             prefixCls="rc-slider-tooltip"
-  //             overlay={`${value}`}
-  //             visible={dragging}
-  //             placement="top"
-  //             key={index}
-  //         >
-  //             <Handle value={value} {...restProps} />
-  //         </SliderTooltip>
-  //     );
-  // };
-
   useEffect(() => {
     const left = generateNum()
     const right = generateNum()

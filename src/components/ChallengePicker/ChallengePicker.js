@@ -21,6 +21,7 @@ export const Games = {
 }
 
 export const ChallengePicker = ({ game, onFinish }) => {
+  // eslint-disable-next-line no-alert
   const [start, setStart] = useState(false)
   const counterRef = useRef(0)
   const [counter, setCounter] = useState(0)
@@ -42,7 +43,7 @@ export const ChallengePicker = ({ game, onFinish }) => {
   return (
     <div className="ChallengeBoard">
       {!start && <h1>{game}</h1>}
-      {!start && <h1>{3 - counter}</h1>}
+      {!start && counter < 3 && <h1>{3 - counter}</h1>}
       {start &&
         typeof Games[game] !== 'undefined' &&
         React.createElement(Games[game], { onFinish })}
