@@ -9,6 +9,7 @@ import { DotsHunter } from '../games/DotsHunter/DotsHunter'
 import { QuickMath } from '../games/QuickMath/QuickMath'
 import { Unique } from '../games/Unique/Unique'
 import { Immigration } from '../games/Immigration/Immigration'
+import { MemoryPath } from '../games/MemoryPath/MemoryPath'
 
 export const Games = {
   MemoryBlocks,
@@ -18,6 +19,7 @@ export const Games = {
   QuickMath,
   Unique,
   Immigration,
+  MemoryPath,
 }
 
 export const ChallengePicker = ({ game, onFinish }) => {
